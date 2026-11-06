@@ -206,6 +206,7 @@ public class Main {
 			System.out.println("5-Excluir");
 			System.out.println("6-Voltar");
 			escolha = sc.nextInt();
+			sc.nextLine();
 
 			switch (escolha) {
 			case 1: {
