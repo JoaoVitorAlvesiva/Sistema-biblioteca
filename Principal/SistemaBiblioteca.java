@@ -12,7 +12,8 @@ public class SistemaBiblioteca {
 	private ArrayList<Livro> livros = new ArrayList<>();
 	private ArrayList<Usuario> usuarios = new ArrayList<>();
 	private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
-	private static boolean existe = false;
+
+	private static SistemaBiblioteca instancia;
 
 	private SistemaBiblioteca(ArrayList<Livro> livros, ArrayList<Usuario> usuarios, ArrayList<Emprestimo> empresstimos)
 			throws ValidacaoException {
@@ -24,15 +25,17 @@ public class SistemaBiblioteca {
 		inicializarLivros();
 		inicializarEmprestimos();
 
-		existe = true;
 	}
 
 	public static SistemaBiblioteca getInstance(ArrayList<Livro> livros, ArrayList<Usuario> usuarios,
-			ArrayList<Emprestimo> emprestimos) throws ValidacaoException {
-		if (existe == false && livros != null && usuarios != null && emprestimos != null) {
-			return new SistemaBiblioteca(livros, usuarios, emprestimos);
+												ArrayList<Emprestimo> emprestimos) throws ValidacaoException {
+		if (instancia == null) {
+			if (livros == null || usuarios == null || emprestimos == null) {
+				throw new ValidacaoException("Listas inválidas");
+			}
+			instancia = new SistemaBiblioteca(livros, usuarios, emprestimos);
 		}
-		return null;
+		return instancia;
 	}
 
 	// ============================================================
