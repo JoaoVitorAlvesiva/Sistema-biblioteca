@@ -17,11 +17,11 @@ public class SistemaBiblioteca {
 
 	private static SistemaBiblioteca instancia;
 
-	private SistemaBiblioteca(ArrayList<Livro> livros, ArrayList<Usuario> usuarios, ArrayList<Emprestimo> empresstimos)
+	private SistemaBiblioteca(ArrayList<Livro> livros, ArrayList<Usuario> usuarios, ArrayList<Emprestimo> emprestimos)
 			throws ValidacaoException {
 		this.livros = livros;
 		this.usuarios = usuarios;
-		this.emprestimos = empresstimos;
+		this.emprestimos = emprestimos;
 
 		inicializarUsuarios();
 		inicializarLivros();
