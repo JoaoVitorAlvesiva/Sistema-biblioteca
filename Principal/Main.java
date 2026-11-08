@@ -7,6 +7,7 @@ import Classes.Emprestimo;
 import Classes.Livro;
 import Classes.Usuario;
 import Excecoes.BuscaException;
+import Excecoes.LimiteEmprestimosException;
 import Excecoes.ValidacaoException;
 
 public class Main {
@@ -398,7 +399,9 @@ public class Main {
 					System.err.println(e.getMessage());
 				} catch (BuscaException e) {
 					System.err.println(e.getMessage());
-				}
+				} catch (LimiteEmprestimosException e) {
+					System.err.println(e.getMessage());
+                }
 				break;
 			}
 			case 2: {
