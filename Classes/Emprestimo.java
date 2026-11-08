@@ -23,7 +23,9 @@ public class Emprestimo {
 		this.usuario = usuario;
 		this.livro = livro;
 		this.dataEmprestimo = LocalDate.now();
-		this.dataDevolucao = dataEmprestimo.plusDays(diasEmprestimo);
+		this.dataPrevista = dataEmprestimo.plusDays(diasEmprestimo);
+		this.status =StatusEmprestimo.ATIVO;
+		this.multa=0;
 		this.id = geradorId;
 		geradorId++;
 	}
