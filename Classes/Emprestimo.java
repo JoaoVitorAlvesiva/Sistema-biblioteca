@@ -58,6 +58,9 @@ public class Emprestimo {
 		this.status = StatusEmprestimo.DEVOLVIDO;
 		livro.devolver();
 	}
+	public boolean estaAtivo() {
+		return status != StatusEmprestimo.DEVOLVIDO;
+	}
 
 	// ============================================================
 	// GET
