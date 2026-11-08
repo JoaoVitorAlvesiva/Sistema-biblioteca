@@ -10,7 +10,12 @@ public class Emprestimo {
 	private Usuario usuario;
 	private Livro livro;
 	private LocalDate dataEmprestimo;
+	private LocalDate dataPrevista;
 	private LocalDate dataDevolucao;
+	private StatusEmprestimo status;
+	private double multa;
+
+	private static final double MULTA_POR_DIA = 1.50;
 	
 	private static int geradorId = 1;
 
