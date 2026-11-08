@@ -96,26 +96,7 @@ public class Emprestimo {
 	public double getMulta() {
 		return multa;
 	}
-
-	// ============================================================
-	// Set
-	// ============================================================
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public void setLivro(Livro livro) {
-		this.livro = livro;
-	}
-
-	public void setDataDevolucao(LocalDate dataDevolucao) {
-		this.dataDevolucao = dataDevolucao;
-	}
-
-	public void setDataEmprestimo(LocalDate dataEmprestimo) {
-		this.dataEmprestimo = dataEmprestimo;
-	}
+	
 
 	@Override
 	public boolean equals(Object o ){
