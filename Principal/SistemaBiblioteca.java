@@ -436,7 +436,7 @@ public class SistemaBiblioteca {
 		}
 		throw new ValidacaoException("Não existe nenhum empréstimo com esse ID");
 	}
-	
+
 
 	public  ArrayList<Emprestimo> listarEmprestimoUsuario(int idUsuario) throws ValidacaoException{
 		if (usuarios.size() == 0) {

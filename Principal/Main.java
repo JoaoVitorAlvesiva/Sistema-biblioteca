@@ -402,8 +402,8 @@ public class Main {
 				break;
 			}
 			case 2: {
-				System.out.println(String.format("%-10s | %-30s | %-32s | %-15s | %-15s", "ID-Empréstimo", "Usuario",
-						"Livro", "Data Emprestimo", "Data Devolucao"));
+				System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
+						"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
 				for (Emprestimo emprestimos : sis.listarEmprestimo()) {
 					System.out.println(emprestimos);
 				}
@@ -417,8 +417,8 @@ public class Main {
 
 				try {
 					ArrayList<Emprestimo> emprestimosUsuario = sis.listarEmprestimoUsuario(id);
-					System.out.println(String.format("%-10s | %-30s | %-30s | %-15s | %-15s", "ID-Empréstimo",
-							"Usuario", "Livro", "Data Emprestimo", "Data Devolucao"));
+					System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
+							"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
 					for(Emprestimo emprestimo : emprestimosUsuario) {
 						System.out.println(emprestimo);
 					}
@@ -439,8 +439,8 @@ public class Main {
 				System.out.println("Digite o ID do usuário: ");
 				idUsuario = sc.nextInt();
 				sc.nextLine();
-				System.out.println(String.format("%-10s | %-30s | %-32s | %-15s | %-15s", "ID-Empréstimo", "Usuario",
-						"Livro", "Data Emprestimo", "Data Devolucao"));
+				System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
+						"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
 				try {
 					for (Emprestimo emprestimos : sis.listarEmprestimoUsuario(idUsuario)) {
 						System.out.println(emprestimos);
@@ -453,8 +453,11 @@ public class Main {
 				idEmprestimo = sc.nextInt();
 				sc.nextLine();
 				try {
-					sis.excluirEmprestimo(idEmprestimo);
+					double multa = sis.devolverLivro(idEmprestimo);
 					System.out.println("Livro devolvido!");
+					if (multa > 0) {
+						System.out.printf("Multa por atraso: R$ %.2f%n", multa);
+					}
 				} catch (ValidacaoException e) {
 					System.out.println(e.getMessage());
 				}
