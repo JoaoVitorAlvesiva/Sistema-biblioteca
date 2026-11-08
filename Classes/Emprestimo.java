@@ -2,6 +2,8 @@ package Classes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 
 import Excecoes.ValidacaoException;
 
@@ -42,6 +44,19 @@ public class Emprestimo {
 		}
 		return new Emprestimo(usuario, livro, diasEmprestimo);
 
+	}
+
+	public void devolver()throws ValidacaoException{
+		if(status == StatusEmprestimo.DEVOLVIDO){
+			throw new ValidacaoException("Empréstimo já devolvido");
+		}
+		this.dataDevolucao = LocalDate.now();
+		long diasAtrasos = ChronoUnit.DAYS.between(dataPrevista,dataDevolucao);
+		if(diasAtrasos > 0){
+			this.multa = diasAtrasos * MULTA_POR_DIA;
+		}
+		this.status = StatusEmprestimo.DEVOLVIDO;
+		livro.devolver();
 	}
 
 	// ============================================================
