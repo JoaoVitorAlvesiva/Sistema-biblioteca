@@ -9,6 +9,7 @@ import Excecoes.BuscaException;
 import Excecoes.ValidacaoException;
 
 public class SistemaBiblioteca {
+	private static final int LIMITE_EMPRESTIMOS_ATIVOS = 3;
 	private ArrayList<Livro> livros = new ArrayList<>();
 	private ArrayList<Usuario> usuarios = new ArrayList<>();
 	private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
@@ -36,6 +37,16 @@ public class SistemaBiblioteca {
 			instancia = new SistemaBiblioteca(livros, usuarios, emprestimos);
 		}
 		return instancia;
+	}
+
+	private int ContarEmprestimoAtivos(int idUsuario){
+		int total = 0;
+		for (Emprestimo emprestimo : emprestimos) {
+			if (emprestimo.getUsuario().getId() == idUsuario && emprestimo.estaAtivo()) {
+				total++;
+			}
+		}
+		return total;
 	}
 
 	// ============================================================
