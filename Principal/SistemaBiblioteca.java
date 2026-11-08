@@ -126,7 +126,7 @@ public class SistemaBiblioteca {
 			throw new ValidacaoException("Não existe nenhum usuário com esse Id");
 		}
 		if(verificarExistenciaEmprestimoUsuario(id)) {
-			throw new ValidacaoException("Usuário possui um empréstimo");
+			throw new ValidacaoException("Usuário possui empréstimo ativo");
 		}
 		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuarios.get(i).getId() == id) {
@@ -306,7 +306,7 @@ public class SistemaBiblioteca {
 			throw new ValidacaoException("Não existe nenhum livro com esse Id");
 		}
 		if(verificarExistenciaEmprestimoLivro(id)) {
-			throw new ValidacaoException("Livro possui um empréstimo");
+			throw new ValidacaoException("Livro possui empréstimo ativo");
 		}
 		for (int i = 0; i < livros.size(); i++) {
 			if (livros.get(i).getId() == id) {
