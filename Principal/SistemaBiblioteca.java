@@ -192,7 +192,7 @@ public class SistemaBiblioteca {
 	
 	private boolean verificarExistenciaEmprestimoUsuario(int id){
 		for(Emprestimo emprestimo : emprestimos) {
-			if(emprestimo.getUsuario().getId() == id) {
+			if(emprestimo.getUsuario().getId() == id && emprestimo.estaAtivo()) {
 				return true;
 			}
 		}
@@ -352,7 +352,7 @@ public class SistemaBiblioteca {
 	
 	private boolean verificarExistenciaEmprestimoLivro(int id) throws ValidacaoException {
 		for(Emprestimo emprestimo : emprestimos) {
-			if(emprestimo.getLivro().getId() == id) {
+			if(emprestimo.getLivro().getId() == id && emprestimo.estaAtivo()) {
 				return true;
 			}
 		}
