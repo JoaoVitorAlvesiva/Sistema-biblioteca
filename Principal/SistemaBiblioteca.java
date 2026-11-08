@@ -6,6 +6,7 @@ import Classes.Emprestimo;
 import Classes.Livro;
 import Classes.Usuario;
 import Excecoes.BuscaException;
+import Excecoes.LimiteEmprestimosException;
 import Excecoes.ValidacaoException;
 
 public class SistemaBiblioteca {
@@ -39,7 +40,7 @@ public class SistemaBiblioteca {
 		return instancia;
 	}
 
-	private int ContarEmprestimoAtivos(int idUsuario){
+	private int contarEmprestimoAtivos(int idUsuario){
 		int total = 0;
 		for (Emprestimo emprestimo : emprestimos) {
 			if (emprestimo.getUsuario().getId() == idUsuario && emprestimo.estaAtivo()) {
@@ -383,7 +384,7 @@ public class SistemaBiblioteca {
 	// ============================================================
 
 	public void fazerEmprestimo(int idLivro, int idUsuario, int diasEmprestimo)
-			throws ValidacaoException, BuscaException {
+			throws ValidacaoException, BuscaException,LimiteEmprestimosException {
 		if (!verificarIdExistenteLivros(idLivro)) {
 			throw new BuscaException("Não existe nenhum livro com esse ID");
 		}
@@ -393,6 +394,9 @@ public class SistemaBiblioteca {
 
 		if (!livroDisponivel(idLivro)) {
 			throw new ValidacaoException("Livro indisponível");
+		}
+		if(contarEmprestimoAtivos(idUsuario) >= LIMITE_EMPRESTIMOS_ATIVOS){
+			throw new LimiteEmprestimosException("Usuário atingiu o limite de " + LIMITE_EMPRESTIMOS_ATIVOS + " empréstimos ativos");
 		}
 
 		Usuario usuario = adicionarUsuarioEmprestimo(idUsuario);
