@@ -93,4 +93,4 @@ Principal/
 
 ## Autor
 
-Seu Nome — [LinkedIn](https://www.linkedin.com/) · [GitHub](https://github.com/)
+João Vitor Alves Silva — [LinkedIn](https://www.linkedin.com/) · [GitHub](https://github.com/)
