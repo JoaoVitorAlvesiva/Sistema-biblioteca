@@ -2,7 +2,6 @@ package Classes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
 import Excecoes.ValidacaoException;
@@ -96,7 +95,7 @@ public class Emprestimo {
 	public double getMulta() {
 		return multa;
 	}
-	
+
 
 	@Override
 	public boolean equals(Object o ){
@@ -117,9 +116,10 @@ public class Emprestimo {
 	@Override
 	public String toString() {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-		return String.format("%-13s | %-30s | %-32s | %-15s | %-15s", id, usuario.getNome(), livro.getTitulo(),
-				dataEmprestimo.format(formato), dataDevolucao.format(formato));
+		return String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | R$ %.2f",
+				id, usuario.getNome(), livro.getTitulo(),
+				dataEmprestimo.format(formato), dataPrevista.format(formato),
+				status.getDescricao(), multa);
 	}
 
 }

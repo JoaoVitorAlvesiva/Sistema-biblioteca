@@ -424,24 +424,17 @@ public class SistemaBiblioteca {
 		return false;
 	}
 
-
-	public void excluirEmprestimo(int idEmprestimo) throws ValidacaoException {
-		if (idEmprestimo <= 0) {
-		    throw new ValidacaoException("Id inválido");
+	public double devolverLivro(int idEmprestimo) throws  ValidacaoException{
+		if(idEmprestimo <= 0){
+			throw new ValidacaoException("Id inválido");
 		}
-		if (emprestimos.size() == 0) {
-			throw new ValidacaoException("Não existe nenhum empréstimo cadastrado");
+		for(Emprestimo emprestimo : emprestimos){
+			if(emprestimo.getId() == idEmprestimo){
+				emprestimo.devolver();
+				return emprestimo.getMulta();
+			}
 		}
-		if (!verificarIdExistenteEmprestimo(idEmprestimo)) {
-			throw new ValidacaoException("Não existe nenhum empréstimo cadastrado");
-		}
-		for (int i = 0; i < emprestimos.size(); i++) {
-		    if (emprestimos.get(i).getId() == idEmprestimo) {
-		        emprestimos.get(i).getLivro().devolver();
-		        emprestimos.remove(i);
-		        break;
-		    }
-		}
+		throw new ValidacaoException("Não existe nenhum empréstimo com esse ID");
 	}
 
 	private boolean verificarIdExistenteEmprestimo(int id) {
