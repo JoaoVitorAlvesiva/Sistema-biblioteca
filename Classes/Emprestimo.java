@@ -85,6 +85,18 @@ public class Emprestimo {
 		return id;
 	}
 
+	public LocalDate getDataPrevista() {
+		return dataPrevista;
+	}
+
+	public StatusEmprestimo getStatus() {
+		return status;
+	}
+
+	public double getMulta() {
+		return multa;
+	}
+
 	// ============================================================
 	// Set
 	// ============================================================
