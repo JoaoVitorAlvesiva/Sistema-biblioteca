@@ -58,13 +58,26 @@ public class Usuario {
 		}
 		return false;
 	}
-	
+
+	@Override
+	public boolean equals(Object o ){
+		if(this == o){
+			return true;
+		}
+		if(!(o instanceof Usuario outro)){
+			return false;
+		}
+		return id == outro.id;
+	}
+
+	@Override
+	public int hashCode(){
+		return Integer.hashCode(id);
+	}
 	
 	public String toString() {
 		return String.format("%-5d | %-20s | %-20s |",
 				id, nome, email);
 	}
-	
-	
-	
+
 }

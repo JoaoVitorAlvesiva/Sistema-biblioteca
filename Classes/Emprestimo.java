@@ -81,6 +81,22 @@ public class Emprestimo {
 	}
 
 	@Override
+	public boolean equals(Object o ){
+		if(this == o){
+			return true;
+		}
+		if(!(o instanceof Emprestimo outro)){
+			return false;
+		}
+		return id == outro.id;
+	}
+
+	@Override
+	public int hashCode(){
+		return Integer.hashCode(id);
+	}
+
+	@Override
 	public String toString() {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

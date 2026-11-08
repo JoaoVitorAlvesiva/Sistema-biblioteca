@@ -69,13 +69,29 @@ public class Livro {
 		if(titulo == null || titulo.trim().length() < 3) {
 			throw new ValidacaoException("Título tem que ter pelo menos 3 caracteres");
 		}
-		if(autor == null || autor.length() < 3) {
+		if(autor == null || autor.trim().length() < 3) {
 			throw new ValidacaoException("Autor tem que ter pelo menos 3 caracteres");
 		}
 		if(ano <= 0) {
 			throw new ValidacaoException("Ano tem que ser maior que 0");
 		}
 		return new Livro(titulo, autor, ano);
+	}
+
+	@Override
+	public boolean equals(Object o ){
+		if(this == o){
+			return true;
+		}
+		if(!(o instanceof Livro outro)){
+			return false;
+		}
+		return id == outro.id;
+	}
+
+	@Override
+	public int hashCode(){
+		return Integer.hashCode(id);
 	}
 	
 	
