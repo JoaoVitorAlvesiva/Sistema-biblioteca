@@ -66,7 +66,7 @@ public class SistemaBiblioteca {
 	public Usuario buscaUsuario(String nome) throws BuscaException, ValidacaoException {
 		if (nome != null && nome.trim().length() >= 3) {
 			for (Usuario usuario : usuarios) {
-				if (usuario.getNome().equals(nome)) {
+				if (usuario.getNome().trim().equalsIgnoreCase(nome.trim())) {
 					return usuario;
 				}
 			}
