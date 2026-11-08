@@ -388,8 +388,8 @@ public class SistemaBiblioteca {
 		Livro livro = adicionarLivroEmprestimo(idLivro);
 
 		Emprestimo emprestimo = Emprestimo.getInstance(usuario, livro, diasEmprestimo);
-		emprestimos.add(emprestimo);
 		livro.emprestar();
+		emprestimos.add(emprestimo);
 
 	}
 
