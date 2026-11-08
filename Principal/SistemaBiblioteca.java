@@ -389,7 +389,7 @@ public class SistemaBiblioteca {
 
 		Emprestimo emprestimo = Emprestimo.getInstance(usuario, livro, diasEmprestimo);
 		emprestimos.add(emprestimo);
-		livro.setDisponivel(false);
+		livro.emprestar();
 
 	}
 
@@ -437,7 +437,7 @@ public class SistemaBiblioteca {
 		}
 		for (int i = 0; i < emprestimos.size(); i++) {
 		    if (emprestimos.get(i).getId() == idEmprestimo) {
-		        emprestimos.get(i).getLivro().setDisponivel(true);
+		        emprestimos.get(i).getLivro().devolver();
 		        emprestimos.remove(i);
 		        break;
 		    }
@@ -504,10 +504,10 @@ public class SistemaBiblioteca {
 
 		emprestimos.add(Emprestimo.getInstance(usuarios.get(3), livros.get(3), 7));
 		
-		livros.get(0).setDisponivel(false);
-		livros.get(1).setDisponivel(false);
-		livros.get(2).setDisponivel(false);
-		livros.get(3).setDisponivel(false);
+		livros.get(0).emprestar();
+		livros.get(1).emprestar();
+		livros.get(2).emprestar();
+		livros.get(3).emprestar();
 	}
 
 }

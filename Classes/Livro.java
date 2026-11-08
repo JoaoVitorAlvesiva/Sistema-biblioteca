@@ -61,8 +61,15 @@ public class Livro {
 	public void setAno(int ano) {
 		this.ano = ano;
 	}
-	public void setDisponivel(boolean disponivel) {
-		this.disponivel = disponivel;
+
+	public void emprestar() throws ValidacaoException{
+		if(!disponivel){
+			throw  new ValidacaoException("Livro indisponível");
+		}
+		disponivel = false;
+	}
+	public void devolver(){
+		disponivel = true;
 	}
 	
 	public static Livro getInstance(String titulo,String autor,int ano) throws ValidacaoException {

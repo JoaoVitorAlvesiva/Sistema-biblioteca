@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import Excecoes.ValidacaoException;
 
 public class Emprestimo {
-	private int id;
+	private final int id;
 	private Usuario usuario;
 	private Livro livro;
 	private LocalDate dataEmprestimo;
