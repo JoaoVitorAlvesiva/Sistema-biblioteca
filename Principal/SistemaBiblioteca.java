@@ -63,31 +63,6 @@ public class SistemaBiblioteca {
 			throw new ValidacaoException("Nome inválido");
 	}
 
-	public void alterarIdUsuario(int id, int novoId) throws ValidacaoException {
-
-		if (usuarios.size() == 0) {
-			throw new ValidacaoException("Não existe nenhum usuário cadastrado");
-		}
-		if (!verificarIdExistenteUsuarios(id)) {
-			throw new ValidacaoException("Não existe nenhum usuário com esse Id");
-		}
-		if (novoId <= 0) {
-			throw new ValidacaoException("Novo Id inválido");
-		}
-		if (id == novoId) {
-			throw new ValidacaoException("O ID tem que ser diferente do atual");
-		}
-		if (!verificarNovoIdUsuarios(novoId)) {
-			throw new ValidacaoException("Já existe um usuário com esse ID");
-		}
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id) {
-				usuario.setId(novoId);
-				break;
-			}
-		}
-
-	}
 
 	public void alterarNomeUsuario(int id, String novoNome) throws ValidacaoException {
 		if (usuarios.size() == 0) {
@@ -181,14 +156,6 @@ public class SistemaBiblioteca {
 		return false;
 	}
 
-	private boolean verificarNovoIdUsuarios(int id) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id)
-				return false;
-		}
-		return true;
-	}
-
 	private boolean verificarIdExistenteUsuarios(int id) {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getId() == id)
@@ -257,32 +224,6 @@ public class SistemaBiblioteca {
 			throw new ValidacaoException("Título inválido");
 	}
 
-	public void alterarIdLivro(int id, int novoId) throws ValidacaoException {
-
-		if (livros.size() == 0) {
-			throw new ValidacaoException("Não existe nenhum livro cadastrado");
-		}
-		if (!verificarIdExistenteLivros(id)) {
-			throw new ValidacaoException("Não existe nenhum livro com esse ID");
-		}
-		if (novoId <= 0) {
-			throw new ValidacaoException("Novo ID inválido");
-		}
-		if (id == novoId) {
-			throw new ValidacaoException("O ID tem que ser diferente do atual");
-		}
-
-		if (!verificarNovoIdLivros(novoId)) {
-			throw new ValidacaoException("Já existe um livro com esse ID");
-		}
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				livro.setId(novoId);
-				break;
-			}
-		}
-
-	}
 
 	public void alterarTituloLivro(int id, String novoTitulo) throws ValidacaoException {
 		if (livros.size() == 0) {
@@ -408,13 +349,6 @@ public class SistemaBiblioteca {
 		return false;
 	}
 
-	private boolean verificarNovoIdLivros(int id) {
-		for (Livro livro : livros) {
-			if (livro.getId() == id)
-				return false;
-		}
-		return true;
-	}
 	
 	private boolean verificarExistenciaEmprestimoLivro(int id) throws ValidacaoException {
 		for(Emprestimo emprestimo : emprestimos) {

@@ -2,7 +2,7 @@ package Classes;
 import Excecoes.ValidacaoException;
 
 public class Usuario {
-	private int id;
+	private final int id;
 	private static int gerarId = 1;
 	private String nome;
 	private String email;
@@ -19,7 +19,7 @@ public class Usuario {
 			throw new ValidacaoException("Nome do usuário deve ter ao menos 3 caracteres");
 		}
 		if (email == null || !verificarEmail(email)) {
-			throw new ValidacaoException("Email inváilo: " + email);
+			throw new ValidacaoException("Email inválido: " + email);
 		}
 		return new Usuario(nome, email);
 	}
@@ -43,9 +43,6 @@ public class Usuario {
 	// ============================================================
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	public void setEmail(String email) {
 		this.email = email;

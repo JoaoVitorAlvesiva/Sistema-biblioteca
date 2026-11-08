@@ -76,7 +76,7 @@ public class Main {
 				System.out.print("Digite o nome do usuário: ");
 				nome = sc.nextLine();
 				System.out.print("Digite o email do usuário: ");
-				email = sc.next();
+				email = sc.nextLine();
 				try {
 					sis.cadastrarUsuario(nome, email);
 					System.out.println("Usuário cadastrado com sucesso!");
@@ -119,26 +119,12 @@ public class Main {
 				id = sc.nextInt();
 				sc.nextLine();
 				System.out.println("O que você deseja alterar: ");
-				System.out.println("1-Id");
-				System.out.println("2-Nome ");
-				System.out.println("3-Email ");
-				escolha = sc.nextInt();
+				System.out.println("1-Nome ");
+				System.out.println("2-Email ");
+				int novaEscolha = sc.nextInt();
 				sc.nextLine();
-				switch (escolha) {
+				switch (novaEscolha) {
 				case 1: {
-					int novoId;
-					System.out.print("Novo ID: ");
-					novoId = sc.nextInt();
-					sc.nextLine();
-					try {
-						sis.alterarIdUsuario(id, novoId);
-						System.out.println("ID alterado com sucesso");
-					} catch (ValidacaoException e) {
-						System.err.println(e.getMessage());
-					}
-					break;
-				}
-				case 2: {
 					String novoNome;
 					System.out.print("Novo nome: ");
 					novoNome = sc.nextLine();
@@ -150,7 +136,7 @@ public class Main {
 					}
 					break;
 				}
-				case 3: {
+				case 2: {
 					String novoEmail;
 					System.out.println("Novo email: ");
 					novoEmail = sc.nextLine();
@@ -213,7 +199,6 @@ public class Main {
 				String nome;
 				String autor;
 				int ano;
-				sc.nextLine();
 				System.out.println("Digite o nome do livro: ");
 				nome = sc.nextLine();
 				System.out.println("Digite o nome do autor do livro: ");
@@ -274,7 +259,7 @@ public class Main {
 				        idExiste = sis.verificarIdExistenteLivros(id);
 
 				        if (idExiste) {
-				            System.out.println("Alterar o livro com o ID: " + id);
+				            System.out.println("Alterando o livro com o ID: " + id);
 				        } else {
 				            System.out.println("ID inválido! Tente novamente.");
 				        }
@@ -287,30 +272,15 @@ public class Main {
 				} while (!idExiste);
 
 				do {
-					System.out.println("1-Id");
-					System.out.println("2-Título ");
-					System.out.println("3-Autor ");
-					System.out.println("4-Ano ");
-					System.out.println("5-Voltar");
+					System.out.println("1-Título ");
+					System.out.println("2-Autor ");
+					System.out.println("3-Ano ");
+					System.out.println("4-Voltar");
 					novaEscolha = sc.nextInt();
 					sc.nextLine();
 
 					switch (novaEscolha) {
 					case 1: {
-						int novoId;
-						System.out.print("Novo ID: ");
-						novoId = sc.nextInt();
-						sc.nextLine();
-						try {
-							sis.alterarIdLivro(id, novoId);
-							System.out.println("ID alterado com sucesso");
-							id = novoId;
-						} catch (ValidacaoException e) {
-							System.err.println(e.getMessage());
-						}
-						break;
-					}
-					case 2: {
 						String novoTitulo;
 						System.out.print("Novo Título: ");
 						novoTitulo = sc.nextLine();
@@ -322,7 +292,7 @@ public class Main {
 						}
 						break;
 					}
-					case 3: {
+					case 2: {
 						String novoAutor;
 						System.out.println("Novo autor: ");
 						novoAutor = sc.nextLine();
@@ -335,19 +305,20 @@ public class Main {
 						}
 						break;
 					}
-					case 4: {
+					case 3: {
 						int novoAno;
 						System.out.println("Novo ano: ");
 						novoAno = sc.nextInt();
 						sc.nextLine();
 						try {
 							sis.alterarAnoLivro(id, novoAno);
+							System.out.println("Ano alterado com sucesso");
 						} catch (ValidacaoException e) {
 							System.out.println(e.getMessage());
 						}
 						break;
 					}
-					case 5 :{
+					case 4 :{
 						break;
 					}
 						
@@ -355,11 +326,11 @@ public class Main {
 						System.err.println("Opção inválida");
 					} // switch escolha
 
-				} while (novaEscolha != 5);
+				} while (novaEscolha != 4);
 				break;
 			}
 			case 5: {
-				System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
+				System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano", "Disponivel"));
 				for (Livro livros : sis.listarLivros()) {
 					System.out.println(livros);
 				}
@@ -378,7 +349,7 @@ public class Main {
 				break;
 			}
 			default:
-				System.err.println("Opção inváldia");
+				System.err.println("Opção inválida");
 			}
 
 		} while (escolha != 6);
@@ -415,6 +386,7 @@ public class Main {
 				}
 				System.out.println("Digite o id do Livro que deseja fazer o empréstimo: ");
 				idLivro = sc.nextInt();
+				sc.nextLine();
 				System.out.println("Digite o número de dias que ele vai poder ficar com o livro: ");
 				int diasEmprestimo = sc.nextInt();
 				sc.nextLine();
@@ -466,6 +438,7 @@ public class Main {
 				System.out.println("\n\n");
 				System.out.println("Digite o ID do usuário: ");
 				idUsuario = sc.nextInt();
+				sc.nextLine();
 				System.out.println(String.format("%-10s | %-30s | %-32s | %-15s | %-15s", "ID-Empréstimo", "Usuario",
 						"Livro", "Data Emprestimo", "Data Devolucao"));
 				try {
@@ -478,7 +451,7 @@ public class Main {
 				}
 				System.out.println("Digite o ID do empréstimo: ");
 				idEmprestimo = sc.nextInt();
-
+				sc.nextLine();
 				try {
 					sis.excluirEmprestimo(idEmprestimo);
 					System.out.println("Livro devolvido!");

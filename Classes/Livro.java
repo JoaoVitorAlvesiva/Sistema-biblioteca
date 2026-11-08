@@ -2,7 +2,7 @@ package Classes;
 import Excecoes.ValidacaoException;
 
 public class Livro {
-	private int id;
+	private final int id;
 	private String titulo;
 	private String autor;
 	private int ano;
@@ -61,16 +61,13 @@ public class Livro {
 	public void setAno(int ano) {
 		this.ano = ano;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public void setDisponivel(boolean disponivel) {
 		this.disponivel = disponivel;
 	}
 	
 	public static Livro getInstance(String titulo,String autor,int ano) throws ValidacaoException {
 		if(titulo == null || titulo.trim().length() < 3) {
-			throw new ValidacaoException("Titúlo tem que ter pelo menos 3 caracteres");
+			throw new ValidacaoException("Título tem que ter pelo menos 3 caracteres");
 		}
 		if(autor == null || autor.length() < 3) {
 			throw new ValidacaoException("Autor tem que ter pelo menos 3 caracteres");
