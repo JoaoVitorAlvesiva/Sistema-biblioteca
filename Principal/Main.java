@@ -1,6 +1,5 @@
 package Principal;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +16,7 @@ public class Main {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) throws ValidacaoException {
-		SistemaBiblioteca sis = SistemaBiblioteca.getInstance(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		SistemaBiblioteca sis = SistemaBiblioteca.getInstance();
 
 		System.out.println("----------Bem Vindo----------");
 		menuPrincipal(sis);

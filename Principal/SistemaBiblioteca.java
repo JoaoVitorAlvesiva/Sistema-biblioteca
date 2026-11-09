@@ -1,6 +1,8 @@
 package Principal;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import Classes.Emprestimo;
 import Classes.Livro;
@@ -11,31 +13,21 @@ import Excecoes.ValidacaoException;
 
 public class SistemaBiblioteca {
 	private static final int LIMITE_EMPRESTIMOS_ATIVOS = 3;
-	private ArrayList<Livro> livros = new ArrayList<>();
-	private ArrayList<Usuario> usuarios = new ArrayList<>();
+	private Map<Integer, Livro> livros = new LinkedHashMap<>();
+	private Map<Integer, Usuario> usuarios = new LinkedHashMap<>();
 	private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
 
 	private static SistemaBiblioteca instancia;
 
-	private SistemaBiblioteca(ArrayList<Livro> livros, ArrayList<Usuario> usuarios, ArrayList<Emprestimo> emprestimos)
-			throws ValidacaoException {
-		this.livros = livros;
-		this.usuarios = usuarios;
-		this.emprestimos = emprestimos;
-
+	private SistemaBiblioteca() throws ValidacaoException {
 		inicializarUsuarios();
 		inicializarLivros();
 		inicializarEmprestimos();
-
 	}
 
-	public static SistemaBiblioteca getInstance(ArrayList<Livro> livros, ArrayList<Usuario> usuarios,
-												ArrayList<Emprestimo> emprestimos) throws ValidacaoException {
+	public static SistemaBiblioteca getInstance() throws ValidacaoException {
 		if (instancia == null) {
-			if (livros == null || usuarios == null || emprestimos == null) {
-				throw new ValidacaoException("Listas inválidas");
-			}
-			instancia = new SistemaBiblioteca(livros, usuarios, emprestimos);
+			instancia = new SistemaBiblioteca();
 		}
 		return instancia;
 	}
@@ -56,16 +48,16 @@ public class SistemaBiblioteca {
 
 	public void cadastrarUsuario(String nome, String email) throws ValidacaoException {
 		Usuario novoUsuario = Usuario.getInstance(nome, email);
-		usuarios.add(novoUsuario);
+		usuarios.put(novoUsuario.getId(), novoUsuario);
 	}
 
 	public ArrayList<Usuario> listarUsuarios() {
-		return new ArrayList<>(usuarios);
+		return new ArrayList<>(usuarios.values());
 	}
 
 	public Usuario buscaUsuario(String nome) throws BuscaException, ValidacaoException {
 		if (nome != null && nome.trim().length() >= 3) {
-			for (Usuario usuario : usuarios) {
+			for (Usuario usuario : usuarios.values()) {
 				if (usuario.getNome().trim().equalsIgnoreCase(nome.trim())) {
 					return usuario;
 				}
@@ -77,7 +69,7 @@ public class SistemaBiblioteca {
 
 
 	public void alterarNomeUsuario(int id, String novoNome) throws ValidacaoException {
-		if (usuarios.size() == 0) {
+		if (usuarios.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum usuário cadastrado");
 		}
 		if (!verificarIdExistenteUsuarios(id)) {
@@ -92,17 +84,11 @@ public class SistemaBiblioteca {
 		if (verificarNomeDuplicado(id, novoNome)) {
 			throw new ValidacaoException("Nome do usuário deve ser diferente do atual");
 		}
-		novoNome = novoNome.trim();
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id) {
-				usuario.setNome(novoNome);
-				break;
-			}
-		}
+		usuarios.get(id).setNome(novoNome.trim());
 	}
 
 	public void alterarEmailUsuario(int id, String novoEmail) throws ValidacaoException {
-		if (usuarios.size() == 0) {
+		if (usuarios.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum usuário cadastrado");
 		}
 		if (!verificarIdExistenteUsuarios(id)) {
@@ -117,18 +103,11 @@ public class SistemaBiblioteca {
 		if (verificarEmailDuplicado(id, novoEmail)) {
 			throw new ValidacaoException("Email tem que ser diferente do atual");
 		}
-		novoEmail = novoEmail.trim();
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id) {
-				usuario.setEmail(novoEmail);
-				break;
-			}
-		}
-
+		usuarios.get(id).setEmail(novoEmail.trim());
 	}
 
 	public void excluirUsuario(int id) throws ValidacaoException {
-		if (usuarios.size() == 0) {
+		if (usuarios.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum usuário cadastrado");
 		}
 		if (id <= 0) {
@@ -137,19 +116,14 @@ public class SistemaBiblioteca {
 		if (!verificarIdExistenteUsuarios(id)) {
 			throw new ValidacaoException("Não existe nenhum usuário com esse Id");
 		}
-		if(verificarExistenciaEmprestimoUsuario(id)) {
+		if (verificarExistenciaEmprestimoUsuario(id)) {
 			throw new ValidacaoException("Usuário possui empréstimo ativo");
 		}
-		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getId() == id) {
-				usuarios.remove(i);
-				break;
-			}
-		}
+		usuarios.remove(id);
 	}
 
 	public boolean verificarNomeDuplicado(String novoNome, int idIgnorado) {
-		for (Usuario usuario : usuarios) {
+		for (Usuario usuario : usuarios.values()) {
 			if (usuario.getId() != idIgnorado && usuario.getNome().equalsIgnoreCase(novoNome.trim())) {
 				return true;
 			}
@@ -158,29 +132,18 @@ public class SistemaBiblioteca {
 	}
 
 	public boolean verificarNomeDuplicado(int id, String novoNome) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id) {
-				if (usuario.getNome().equalsIgnoreCase(novoNome.trim())) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return usuarios.get(id).getNome().equalsIgnoreCase(novoNome.trim());
 	}
 
 	private boolean verificarIdExistenteUsuarios(int id) {
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id)
-				return true;
-		}
-		return false;
+		return usuarios.containsKey(id);
 	}
 
 	private boolean verificarEmailDuplicado(String email, int idIgnorado) {
 		if (email == null) {
-	        return false;
-	    }
-		for (Usuario usuario : usuarios) {
+			return false;
+		}
+		for (Usuario usuario : usuarios.values()) {
 			if (usuario.getId() != idIgnorado && usuario.getEmail().equalsIgnoreCase(email.trim())) {
 				return true;
 			}
@@ -190,16 +153,9 @@ public class SistemaBiblioteca {
 
 	public boolean verificarEmailDuplicado(int id, String novoEmail) {
 		if (novoEmail == null) {
-	        return false;
-	    }
-		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id) {
-				if (usuario.getEmail().equalsIgnoreCase(novoEmail.trim())) {
-					return true;
-				}
-			}
+			return false;
 		}
-		return false;
+		return usuarios.get(id).getEmail().equalsIgnoreCase(novoEmail.trim());
 	}
 	
 	private boolean verificarExistenciaEmprestimoUsuario(int id){
@@ -217,16 +173,16 @@ public class SistemaBiblioteca {
 
 	public void cadastrarLivro(String titulo, String autor, int ano) throws ValidacaoException {
 		Livro novoLivro = Livro.getInstance(titulo, autor, ano);
-		livros.add(novoLivro);
+		livros.put(novoLivro.getId(), novoLivro);
 	}
 
 	public ArrayList<Livro> listarLivros() {
-		return new ArrayList<>(livros);
+		return new ArrayList<>(livros.values());
 	}
 
 	public Livro buscaLivro(String titulo) throws ValidacaoException, BuscaException {
 		if (titulo != null && titulo.trim().length() >= 3) {
-			for (Livro livro : livros) {
+			for (Livro livro : livros.values()) {
 				if (livro.getTitulo().trim().equalsIgnoreCase(titulo.trim())) {
 					return livro;
 				}
@@ -238,7 +194,7 @@ public class SistemaBiblioteca {
 
 
 	public void alterarTituloLivro(int id, String novoTitulo) throws ValidacaoException {
-		if (livros.size() == 0) {
+		if (livros.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum livro cadastrado");
 		}
 		if (!verificarIdExistenteLivros(id)) {
@@ -250,43 +206,27 @@ public class SistemaBiblioteca {
 		if (verificarTituloDuplicado(id, novoTitulo)) {
 			throw new ValidacaoException("Novo título do livro tem que ser diferente do atual");
 		}
-
-		novoTitulo = novoTitulo.trim();
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				livro.setTitulo(novoTitulo);
-				break;
-			}
-		}
+		livros.get(id).setTitulo(novoTitulo.trim());
 	}
 
 	public void alterarAutorLivro(int id, String novoAutor) throws ValidacaoException {
-		if (livros.size() == 0) {
+		if (livros.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum livro cadastrado");
 		}
 		if (!verificarIdExistenteLivros(id)) {
 			throw new ValidacaoException("Não existe nenhum livro com esse ID cadastrado");
 		}
 		if (novoAutor == null || novoAutor.trim().length() < 3) {
-			throw new ValidacaoException("nome do novo autor deve ter ao menos 3 caracteres");
+			throw new ValidacaoException("Nome do novo autor deve ter ao menos 3 caracteres");
 		}
 		if (verificarAutorDuplicado(id, novoAutor)) {
 			throw new ValidacaoException("Nome do novo autor do livro tem que ser diferente do atual");
 		}
-
-		novoAutor = novoAutor.trim();
-
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				livro.setAutor(novoAutor);
-				break;
-			}
-		}
-
+		livros.get(id).setAutor(novoAutor.trim());
 	}
 
 	public void alterarAnoLivro(int id, int novoAno) throws ValidacaoException {
-		if (livros.size() == 0) {
+		if (livros.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum livro cadastrado");
 		}
 		if (!verificarIdExistenteLivros(id)) {
@@ -298,17 +238,11 @@ public class SistemaBiblioteca {
 		if (verificarAnoDuplicado(id, novoAno)) {
 			throw new ValidacaoException("Ano tem que ser diferente do atual");
 		}
-
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				livro.setAno(novoAno);
-				break;
-			}
-		}
+		livros.get(id).setAno(novoAno);
 	}
 
 	public void excluirlivro(int id) throws ValidacaoException {
-		if (livros.size() == 0) {
+		if (livros.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum livro cadastrado");
 		}
 		if (id <= 0) {
@@ -317,52 +251,26 @@ public class SistemaBiblioteca {
 		if (!verificarIdExistenteLivros(id)) {
 			throw new ValidacaoException("Não existe nenhum livro com esse Id");
 		}
-		if(verificarExistenciaEmprestimoLivro(id)) {
+		if (verificarExistenciaEmprestimoLivro(id)) {
 			throw new ValidacaoException("Livro possui empréstimo ativo");
 		}
-		for (int i = 0; i < livros.size(); i++) {
-			if (livros.get(i).getId() == id) {
-				livros.remove(i);
-				break;
-			}
-		}
+		livros.remove(id);
 	}
 
 	public boolean verificarAnoDuplicado(int id, int novoAno) {
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				if (livro.getAno() == novoAno) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return livros.get(id).getAno() == novoAno;
 	}
 
 	public boolean verificarAutorDuplicado(int id, String novoAutor) {
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				if (livro.getAutor().equalsIgnoreCase(novoAutor.trim())) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return livros.get(id).getAutor().equalsIgnoreCase(novoAutor.trim());
 	}
 
 	public boolean verificarTituloDuplicado(int id, String novoTitulo) {
-		for (Livro livro : livros) {
-			if (livro.getId() == id) {
-				if (livro.getTitulo().equalsIgnoreCase(novoTitulo.trim())) {
-					return true;
-				}
-			}
-		}
-		return false;
+		return livros.get(id).getTitulo().equalsIgnoreCase(novoTitulo.trim());
 	}
 
 	
-	private boolean verificarExistenciaEmprestimoLivro(int id) throws ValidacaoException {
+	private boolean verificarExistenciaEmprestimoLivro(int id){
 		for(Emprestimo emprestimo : emprestimos) {
 			if(emprestimo.getLivro().getId() == id && emprestimo.estaAtivo()) {
 				return true;
@@ -372,11 +280,7 @@ public class SistemaBiblioteca {
 	}
 
 	public boolean verificarIdExistenteLivros(int id) {
-		for (Livro livro : livros) {
-			if (livro.getId() == id)
-				return true;
-		}
-		return false;
+		return livros.containsKey(id);
 	}
 
 	// ============================================================
@@ -384,60 +288,34 @@ public class SistemaBiblioteca {
 	// ============================================================
 
 	public void fazerEmprestimo(int idLivro, int idUsuario, int diasEmprestimo)
-			throws ValidacaoException, BuscaException,LimiteEmprestimosException {
+			throws ValidacaoException, BuscaException, LimiteEmprestimosException {
 		if (!verificarIdExistenteLivros(idLivro)) {
 			throw new BuscaException("Não existe nenhum livro com esse ID");
 		}
 		if (!verificarIdExistenteUsuarios(idUsuario)) {
 			throw new BuscaException("Não existe nenhum usuário com esse ID");
 		}
-
-		if (!livroDisponivel(idLivro)) {
+		if (!livros.get(idLivro).getDisponivel()) {
 			throw new ValidacaoException("Livro indisponível");
 		}
-		if(contarEmprestimoAtivos(idUsuario) >= LIMITE_EMPRESTIMOS_ATIVOS){
-			throw new LimiteEmprestimosException("Usuário atingiu o limite de " + LIMITE_EMPRESTIMOS_ATIVOS + " empréstimos ativos");
+		if (contarEmprestimoAtivos(idUsuario) >= LIMITE_EMPRESTIMOS_ATIVOS) {
+			throw new LimiteEmprestimosException(
+					"Usuário atingiu o limite de " + LIMITE_EMPRESTIMOS_ATIVOS + " empréstimos ativos");
 		}
 
-		Usuario usuario = adicionarUsuarioEmprestimo(idUsuario);
-		Livro livro = adicionarLivroEmprestimo(idLivro);
+		Usuario usuario = usuarios.get(idUsuario);
+		Livro livro = livros.get(idLivro);
 
 		Emprestimo emprestimo = Emprestimo.getInstance(usuario, livro, diasEmprestimo);
 		livro.emprestar();
 		emprestimos.add(emprestimo);
-
 	}
 
 	public ArrayList<Emprestimo> listarEmprestimo() {
 		return new ArrayList<>(emprestimos);
 	}
 
-	private Livro adicionarLivroEmprestimo(int idLivro) throws ValidacaoException {
-		for (int i = 0; i < livros.size(); i++) {
-			if (livros.get(i).getId() == idLivro) {
-				return livros.get(i);
-			}
-		}
-		throw new ValidacaoException("Não existe nenhum livro com esse ID");
-	}
 
-	private Usuario adicionarUsuarioEmprestimo(int idUsuario) throws ValidacaoException {
-		for (int i = 0; i < usuarios.size(); i++) {
-			if (usuarios.get(i).getId() == idUsuario) {
-				return usuarios.get(i);
-			}
-		}
-		throw new ValidacaoException("Não existe nenhum usuário com esse ID");
-	}
-
-	private boolean livroDisponivel(int id) {
-		for (int i = 0; i < livros.size(); i++) {
-			if (livros.get(i).getId() == id && livros.get(i).getDisponivel()) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public double devolverLivro(int idEmprestimo) throws  ValidacaoException{
 		if(idEmprestimo <= 0){
@@ -454,7 +332,7 @@ public class SistemaBiblioteca {
 
 
 	public  ArrayList<Emprestimo> listarEmprestimoUsuario(int idUsuario) throws ValidacaoException{
-		if (usuarios.size() == 0) {
+		if (usuarios.isEmpty()) {
 			throw new ValidacaoException("Não existe nenhum usuário cadastrado");
 		}
 		if (!verificarIdExistenteUsuarios(idUsuario)) {
@@ -479,36 +357,34 @@ public class SistemaBiblioteca {
 	// ============================================================
 
 	private void inicializarUsuarios() throws ValidacaoException {
-		usuarios.add(Usuario.getInstance("João", "joao@gmail.com"));
-		usuarios.add(Usuario.getInstance("Maria", "maria@gmail.com"));
-		usuarios.add(Usuario.getInstance("Carlos", "carlos@gmail.com"));
-		usuarios.add(Usuario.getInstance("Ana", "ana@gmail.com"));
+		cadastrarUsuario("João", "joao@gmail.com");
+		cadastrarUsuario("Maria", "maria@gmail.com");
+		cadastrarUsuario("Carlos", "carlos@gmail.com");
+		cadastrarUsuario("Ana", "ana@gmail.com");
 	}
 
 	private void inicializarLivros() throws ValidacaoException {
-		livros.add(Livro.getInstance("Dom Casmurro", "Machado de Assis", 1899));
-		livros.add(Livro.getInstance("O Cortiço", "Aluísio Azevedo", 1890));
-		livros.add(Livro.getInstance("Memórias Póstumas de Brás Cubas", "Machado de Assis", 1881));
-		livros.add(Livro.getInstance("Vidas Secas", "Graciliano Ramos", 1938));
-		livros.add(Livro.getInstance("O Hobbit", "J. R. R. Tolkien", 1937));
-		livros.add(Livro.getInstance("1984", "George Orwell", 1949));
-		livros.add(Livro.getInstance("Harry Potter e a Pedra Filosofal", "J. K. Rowling", 1997));
-		livros.add(Livro.getInstance("O Senhor dos Anéis", "J. R. R. Tolkien", 1954));
+		cadastrarLivro("Dom Casmurro", "Machado de Assis", 1899);
+		cadastrarLivro("O Cortiço", "Aluísio Azevedo", 1890);
+		cadastrarLivro("Memórias Póstumas de Brás Cubas", "Machado de Assis", 1881);
+		cadastrarLivro("Vidas Secas", "Graciliano Ramos", 1938);
+		cadastrarLivro("O Hobbit", "J. R. R. Tolkien", 1937);
+		cadastrarLivro("1984", "George Orwell", 1949);
+		cadastrarLivro("Harry Potter e a Pedra Filosofal", "J. K. Rowling", 1997);
+		cadastrarLivro("O Senhor dos Anéis", "J. R. R. Tolkien", 1954);
 	}
 
 	private void inicializarEmprestimos() throws ValidacaoException {
-		emprestimos.add(Emprestimo.getInstance(usuarios.get(0), livros.get(0), 7));
+		registrarEmprestimoInicial(1, 1, 7);
+		registrarEmprestimoInicial(1, 2, 14);
+		registrarEmprestimoInicial(3, 3, 10);
+		registrarEmprestimoInicial(4, 4, 7);
+	}
 
-		emprestimos.add(Emprestimo.getInstance(usuarios.get(0), livros.get(1), 14));
-
-		emprestimos.add(Emprestimo.getInstance(usuarios.get(2), livros.get(2), 10));
-
-		emprestimos.add(Emprestimo.getInstance(usuarios.get(3), livros.get(3), 7));
-		
-		livros.get(0).emprestar();
-		livros.get(1).emprestar();
-		livros.get(2).emprestar();
-		livros.get(3).emprestar();
+	private void registrarEmprestimoInicial(int idUsuario, int idLivro, int dias) throws ValidacaoException {
+		Emprestimo emprestimo = Emprestimo.getInstance(usuarios.get(idUsuario), livros.get(idLivro), dias);
+		livros.get(idLivro).emprestar();
+		emprestimos.add(emprestimo);
 	}
 
 }
