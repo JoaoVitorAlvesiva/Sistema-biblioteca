@@ -1,15 +1,15 @@
-package Principal;
+package service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import Classes.Emprestimo;
-import Classes.Livro;
-import Classes.Usuario;
-import Excecoes.BuscaException;
-import Excecoes.LimiteEmprestimosException;
-import Excecoes.ValidacaoException;
+import model.Emprestimo;
+import model.Livro;
+import model.Usuario;
+import exception.BuscaException;
+import exception.LimiteEmprestimosException;
+import exception.ValidacaoException;
 
 public class SistemaBiblioteca {
 	private static final int LIMITE_EMPRESTIMOS_ATIVOS = 3;

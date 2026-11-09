@@ -1,5 +1,5 @@
-package Classes;
-import Excecoes.ValidacaoException;
+package model;
+import exception.ValidacaoException;
 
 public class Livro {
 	private final int id;

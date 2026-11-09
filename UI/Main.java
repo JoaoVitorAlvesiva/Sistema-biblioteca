@@ -1,15 +1,16 @@
-package Principal;
+package UI;
 
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-import Classes.Emprestimo;
-import Classes.Livro;
-import Classes.Usuario;
-import Excecoes.BuscaException;
-import Excecoes.LimiteEmprestimosException;
-import Excecoes.ValidacaoException;
+import model.Emprestimo;
+import model.Livro;
+import model.Usuario;
+import exception.BuscaException;
+import exception.LimiteEmprestimosException;
+import exception.ValidacaoException;
+import service.SistemaBiblioteca;
 
 public class Main {
 

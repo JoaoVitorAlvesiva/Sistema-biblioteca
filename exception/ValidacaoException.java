@@ -1,4 +1,4 @@
-package Excecoes;
+package exception;
 
 public class ValidacaoException extends Exception {
 

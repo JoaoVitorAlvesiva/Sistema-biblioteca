@@ -41,10 +41,10 @@ Na pasta que contém os pacotes `Classes`, `Excecoes` e `Principal`:
 
 ```bash
 # compilar
-javac -d bin Classes/*.java Excecoes/*.java Principal/*.java
+javac -d bin model/*.java exception/*.java service/*.java
 
 # executar
-java -cp bin Principal.Main
+java -cp bin UI.Main
 ```
 
 No IntelliJ ou Eclipse, basta executar a classe `Principal.Main`.
@@ -63,11 +63,11 @@ Exemplo de fluxo: listar empréstimos (opção 3 > 2), devolver o empréstimo 1 
 ## Estrutura do projeto
 
 ```
-Classes/
+model/
   Usuario.java, Livro.java, Emprestimo.java, StatusEmprestimo.java
-Excecoes/
+exception/
   ValidacaoException.java, BuscaException.java, LimiteEmprestimosException.java
-Principal/
+service/
   Main.java                 -> menus e entrada de dados
   SistemaBiblioteca.java    -> regras de negócio (Singleton)
 ```

@@ -1,4 +1,4 @@
-package Excecoes;
+package exception;
 
 public class BuscaException  extends Exception {
 	public BuscaException(String mensagem) {

@@ -1,4 +1,4 @@
-package Classes;
+package model;
 
 public enum StatusEmprestimo {
     ATIVO("Ativo"),

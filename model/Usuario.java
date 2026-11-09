@@ -1,5 +1,5 @@
-package Classes;
-import Excecoes.ValidacaoException;
+package model;
+import exception.ValidacaoException;
 
 public class Usuario {
 	private final int id;

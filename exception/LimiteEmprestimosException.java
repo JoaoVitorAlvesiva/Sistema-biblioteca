@@ -1,4 +1,4 @@
-package Excecoes;
+package exception;
 
 public class LimiteEmprestimosException extends Exception {
     public LimiteEmprestimosException(String mensagem){
