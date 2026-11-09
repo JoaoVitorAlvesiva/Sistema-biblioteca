@@ -2,6 +2,7 @@ package Principal;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import Classes.Emprestimo;
@@ -87,10 +88,7 @@ public class Main {
 				break;
 			}
 			case 2: {
-				System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
-				for (Usuario usuarios : sis.listarUsuarios()) {
-					System.out.println(usuarios);
-				}
+				imprimirUsuarios(sis.listarUsuarios());
 				break;
 			}
 			case 3: {
@@ -100,8 +98,7 @@ public class Main {
 				try {
 					Usuario usuario = sis.buscaUsuario(nome);
 					System.out.println("Usuário encontrado: ");
-					System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
-					System.out.println(usuario);
+					imprimirUsuarios(List.of(usuario));
 				} catch (BuscaException e) {
 					System.err.println(e.getMessage());
 				} catch (ValidacaoException e) {
@@ -111,10 +108,7 @@ public class Main {
 			}
 			case 4: {
 				int id;
-				System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
-				for (Usuario usuarios : sis.listarUsuarios()) {
-					System.out.println(usuarios);
-				}
+				imprimirUsuarios(sis.listarUsuarios());
 				System.out.println("digite o Id do usuário que você deseja atualizar: ");
 				id = lerInt();
 				System.out.println("O que você deseja alterar: ");
@@ -154,10 +148,7 @@ public class Main {
 				break;
 			}
 			case 5: {
-				System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
-				for (Usuario usuarios : sis.listarUsuarios()) {
-					System.out.println(usuarios);
-				}
+				imprimirUsuarios(sis.listarUsuarios());
 				System.out.println("Digite o id que da pessoa que você deseja apagar: ");
 				int id = lerInt();
 
@@ -210,11 +201,7 @@ public class Main {
 				break;
 			}
 			case 2: {
-				System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano",
-						"Disponivel"));
-				for (Livro livro : sis.listarLivros()) {
-					System.out.println(livro);
-				}
+				imprimirLivros(sis.listarLivros());
 				break;
 			}
 			case 3: {
@@ -222,11 +209,9 @@ public class Main {
 				System.out.println("Digite o título do livro: ");
 				titulo = sc.nextLine().trim();
 				try {
-					sis.buscaLivro(titulo);
+					Livro livro = sis.buscaLivro(titulo);
 					System.out.println("Livro encontrado : ");
-					System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor",
-							"Ano", "Disponivel"));
-					System.out.println(sis.buscaLivro(titulo));
+					imprimirLivros(List.of(livro));
 				} catch (BuscaException e) {
 					System.err.println(e.getMessage());
 				} catch (ValidacaoException e) {
@@ -237,11 +222,7 @@ public class Main {
 			case 4: {
 				int novaEscolha;
 				int id;
-				System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano",
-						"Disponivel"));
-				for (Livro livros : sis.listarLivros()) {
-					System.out.println(livros);
-				}
+				imprimirLivros(sis.listarLivros());
 				
 				boolean idExiste;
 
@@ -322,10 +303,7 @@ public class Main {
 				break;
 			}
 			case 5: {
-				System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano", "Disponivel"));
-				for (Livro livros : sis.listarLivros()) {
-					System.out.println(livros);
-				}
+				imprimirLivros(sis.listarLivros());
 				System.out.println("Digite o id do livro que você deseja apagar: ");
 				int id = lerInt();
 				try {
@@ -361,18 +339,11 @@ public class Main {
 				int idLivro;
 				int idUsuario;
 
-				System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
-				for (Usuario usuarios : sis.listarUsuarios()) {
-					System.out.println(usuarios);
-				}
+				imprimirUsuarios(sis.listarUsuarios());
 				System.out.println("Digite o id do usuário que deseja fazer o empréstimo: ");
 				idUsuario = lerInt();
 
-				System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano",
-						"Disponivel"));
-				for (Livro livro : sis.listarLivros()) {
-					System.out.println(livro);
-				}
+				imprimirLivros(sis.listarLivros());
 				System.out.println("Digite o id do Livro que deseja fazer o empréstimo: ");
 				idLivro = lerInt();
 				System.out.println("Digite o número de dias que ele vai poder ficar com o livro: ");
@@ -391,11 +362,7 @@ public class Main {
 				break;
 			}
 			case 2: {
-				System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
-						"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
-				for (Emprestimo emprestimos : sis.listarEmprestimo()) {
-					System.out.println(emprestimos);
-				}
+				imprimirEmprestimos(sis.listarEmprestimo());
 				break;
 			}
 			case 3: {
@@ -404,13 +371,7 @@ public class Main {
 				id = lerInt();
 
 				try {
-					ArrayList<Emprestimo> emprestimosUsuario = sis.listarEmprestimoUsuario(id);
-					System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
-							"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
-					for(Emprestimo emprestimo : emprestimosUsuario) {
-						System.out.println(emprestimo);
-					}
-
+					imprimirEmprestimos(sis.listarEmprestimoUsuario(id));
 				} catch (ValidacaoException e) {
 					System.out.println(e.getMessage());
 				}
@@ -419,19 +380,12 @@ public class Main {
 			case 4: {
 				int idEmprestimo;
 				int idUsuario;
-				System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
-				for (Usuario usuarios : sis.listarUsuarios()) {
-					System.out.println(usuarios);
-				}
+				imprimirUsuarios(sis.listarUsuarios());
 				System.out.println("\n\n");
 				System.out.println("Digite o ID do usuário: ");
 				idUsuario = lerInt();
-				System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
-						"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
 				try {
-					for (Emprestimo emprestimos : sis.listarEmprestimoUsuario(idUsuario)) {
-						System.out.println(emprestimos);
-					}
+					imprimirEmprestimos(sis.listarEmprestimoUsuario(idUsuario));
 				} catch (ValidacaoException e) {
 					System.err.println(e.getMessage());
 				}
@@ -468,6 +422,29 @@ public class Main {
 				sc.nextLine();
 				System.out.print("Digite um número válido: ");
 			}
+		}
+	}
+
+	static void imprimirUsuarios(List<Usuario> lista) {
+		System.out.println(String.format("%-5s | %-20s | %-20s |", "ID", "Nome", "Email"));
+		for (Usuario usuario : lista) {
+			System.out.println(usuario);
+		}
+	}
+
+	static void imprimirLivros(List<Livro> lista) {
+		System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano",
+				"Disponivel"));
+		for (Livro livro : lista) {
+			System.out.println(livro);
+		}
+	}
+
+	static void imprimirEmprestimos(List<Emprestimo> lista) {
+		System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
+				"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
+		for (Emprestimo emprestimo : lista) {
+			System.out.println(emprestimo);
 		}
 	}
 }
