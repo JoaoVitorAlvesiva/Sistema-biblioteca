@@ -8,7 +8,7 @@ Projeto de estudo: versão do **Capítulo 1 (Java: revisão direcionada)** da ap
 
 - Java 16 ou superior (recomendado JDK 21 LTS)
 - `java.time` (`LocalDate`, `ChronoUnit`) para datas e prazos
-- Collections (`ArrayList`)
+- Collections (`LinkedHashMap` para usuários e livros, `ArrayList` para empréstimos)
 - Git e GitHub
 
 ## Funcionalidades
@@ -37,17 +37,17 @@ Projeto de estudo: versão do **Capítulo 1 (Java: revisão direcionada)** da ap
 
 Pré-requisito: JDK 16 ou superior instalado (`java -version`).
 
-Na pasta que contém os pacotes `Classes`, `Excecoes` e `Principal`:
+Na pasta `src`, que contém os pacotes `model`, `exception`, `service` e `UI`:
 
 ```bash
 # compilar
-javac -d bin model/*.java exception/*.java service/*.java
+javac -encoding UTF-8 -d ../bin model/*.java exception/*.java service/*.java UI/*.java
 
 # executar
-java -cp bin UI.Main
+java -Dfile.encoding=UTF-8 -cp ../bin UI.Main
 ```
 
-No IntelliJ ou Eclipse, basta executar a classe `Principal.Main`.
+No Eclipse ou IntelliJ, basta executar a classe `UI.Main`.
 
 ## Como usar o menu
 
@@ -68,8 +68,9 @@ model/
 exception/
   ValidacaoException.java, BuscaException.java, LimiteEmprestimosException.java
 service/
-  Main.java                 -> menus e entrada de dados
   SistemaBiblioteca.java    -> regras de negócio (Singleton)
+UI/
+  Main.java                 -> menus e entrada de dados
 ```
 
 ## Decisões técnicas
@@ -81,13 +82,16 @@ service/
 - **Exceções próprias (checked):** `ValidacaoException`, `BuscaException` e `LimiteEmprestimosException`, tratadas no `Main`.
 - **Histórico preservado:** o empréstimo tem `StatusEmprestimo` (`ATIVO`, `DEVOLVIDO`, `ATRASADO`), data prevista e data real de devolução.
 - **Listas protegidas:** `listarX()` devolve uma cópia, sem expor as coleções internas.
+- **`Map` para usuários e livros:** busca direta por ID (`get`/`containsKey`), sem laços com `break`; `LinkedHashMap` mantém a ordem de cadastro. Empréstimos ficam em `ArrayList`, pois a ordem importa e são filtrados por usuário.
+- **Entrada segura:** o método `lerInt()` evita que o programa feche ao digitar letras onde se espera número.
+- **Menus enxutos:** `imprimirUsuarios`, `imprimirLivros` e `imprimirEmprestimos` concentram os cabeçalhos e listagens.
 
 ## Próximos passos
 
 - Trocar `double` por `BigDecimal` no cálculo da multa.
-- Usar `Map` para busca por ID e reduzir repetição de código.
 - Atualizar o status para `ATRASADO` automaticamente.
-- Renomear pacotes para `model`, `service`, `exception` e `ui`.
+- Validar duplicidade de e-mail e título também no cadastro.
+- Mover a validação para dentro das entidades (no lugar de setters genéricos).
 - Cap. 2: Streams, `Optional`, records e menu de relatórios.
 - Migrar para Maven, testes com JUnit e depois API REST com Spring Boot.
 
