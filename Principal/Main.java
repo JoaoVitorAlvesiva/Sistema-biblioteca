@@ -1,6 +1,7 @@
 package Principal;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import Classes.Emprestimo;
@@ -29,8 +30,7 @@ public class Main {
 			System.out.println("2-Livros");
 			System.out.println("3-Empréstimos");
 			System.out.println("4-Encerrar programa:");
-			escolha = sc.nextInt();
-			sc.nextLine();
+			escolha = lerInt();
 			System.out.println("-----------------------------");
 
 			switch (escolha) {
@@ -67,8 +67,7 @@ public class Main {
 			System.out.println("4-Atualizar");
 			System.out.println("5-Excluir");
 			System.out.println("6-Voltar");
-			escolha = sc.nextInt();
-			sc.nextLine();
+			escolha = lerInt();
 
 			switch (escolha) {
 			case 1: {
@@ -117,13 +116,11 @@ public class Main {
 					System.out.println(usuarios);
 				}
 				System.out.println("digite o Id do usuário que você deseja atualizar: ");
-				id = sc.nextInt();
-				sc.nextLine();
+				id = lerInt();
 				System.out.println("O que você deseja alterar: ");
 				System.out.println("1-Nome ");
 				System.out.println("2-Email ");
-				int novaEscolha = sc.nextInt();
-				sc.nextLine();
+				int novaEscolha = lerInt();
 				switch (novaEscolha) {
 				case 1: {
 					String novoNome;
@@ -162,8 +159,7 @@ public class Main {
 					System.out.println(usuarios);
 				}
 				System.out.println("Digite o id que da pessoa que você deseja apagar: ");
-				int id = sc.nextInt();
-				sc.nextLine();
+				int id = lerInt();
 
 				try {
 					sis.excluirUsuario(id);
@@ -192,8 +188,7 @@ public class Main {
 			System.out.println("4-Atualizar");
 			System.out.println("5-Excluir");
 			System.out.println("6-Voltar");
-			escolha = sc.nextInt();
-			sc.nextLine();
+			escolha = lerInt();
 
 			switch (escolha) {
 			case 1: {
@@ -205,8 +200,7 @@ public class Main {
 				System.out.println("Digite o nome do autor do livro: ");
 				autor = sc.nextLine();
 				System.out.println("Digite o ano do livro: ");
-				ano = sc.nextInt();
-				sc.nextLine();
+				ano = lerInt();
 				try {
 					sis.cadastrarLivro(nome, autor, ano);
 					System.out.println("Livro cadastrado com sucesso!");
@@ -253,8 +247,7 @@ public class Main {
 
 				do {
 				    System.out.println("Digite o ID do livro:");
-				    id = sc.nextInt();
-				    sc.nextLine();
+				    id = lerInt();
 
 				    try {
 				        idExiste = sis.verificarIdExistenteLivros(id);
@@ -277,8 +270,7 @@ public class Main {
 					System.out.println("2-Autor ");
 					System.out.println("3-Ano ");
 					System.out.println("4-Voltar");
-					novaEscolha = sc.nextInt();
-					sc.nextLine();
+					novaEscolha = lerInt();
 
 					switch (novaEscolha) {
 					case 1: {
@@ -309,8 +301,7 @@ public class Main {
 					case 3: {
 						int novoAno;
 						System.out.println("Novo ano: ");
-						novoAno = sc.nextInt();
-						sc.nextLine();
+						novoAno = lerInt();
 						try {
 							sis.alterarAnoLivro(id, novoAno);
 							System.out.println("Ano alterado com sucesso");
@@ -336,8 +327,7 @@ public class Main {
 					System.out.println(livros);
 				}
 				System.out.println("Digite o id do livro que você deseja apagar: ");
-				int id = sc.nextInt();
-				sc.nextLine();
+				int id = lerInt();
 				try {
 					sis.excluirlivro(id);
 					System.out.println("Livro excluído com sucesso!");
@@ -365,8 +355,7 @@ public class Main {
 			System.out.println("3-Buscar empréstimos do Usuário");
 			System.out.println("4-Devolver livro");
 			System.out.println("5-Voltar");
-			escolha = sc.nextInt();
-			sc.nextLine();
+			escolha = lerInt();
 			switch (escolha) {
 			case 1: {
 				int idLivro;
@@ -377,8 +366,7 @@ public class Main {
 					System.out.println(usuarios);
 				}
 				System.out.println("Digite o id do usuário que deseja fazer o empréstimo: ");
-				idUsuario = sc.nextInt();
-				sc.nextLine();
+				idUsuario = lerInt();
 
 				System.out.println(String.format("%-5s | %-60s | %-20s | %-20s | %-20s", "ID", "Titulo", "Autor", "Ano",
 						"Disponivel"));
@@ -386,11 +374,9 @@ public class Main {
 					System.out.println(livro);
 				}
 				System.out.println("Digite o id do Livro que deseja fazer o empréstimo: ");
-				idLivro = sc.nextInt();
-				sc.nextLine();
+				idLivro = lerInt();
 				System.out.println("Digite o número de dias que ele vai poder ficar com o livro: ");
-				int diasEmprestimo = sc.nextInt();
-				sc.nextLine();
+				int diasEmprestimo = lerInt();
 
 				try {
 					sis.fazerEmprestimo(idLivro, idUsuario, diasEmprestimo);
@@ -415,8 +401,7 @@ public class Main {
 			case 3: {
 				int id;
 				System.out.println("Digite o id do usuario: ");
-				id = sc.nextInt();
-				sc.nextLine();
+				id = lerInt();
 
 				try {
 					ArrayList<Emprestimo> emprestimosUsuario = sis.listarEmprestimoUsuario(id);
@@ -440,8 +425,7 @@ public class Main {
 				}
 				System.out.println("\n\n");
 				System.out.println("Digite o ID do usuário: ");
-				idUsuario = sc.nextInt();
-				sc.nextLine();
+				idUsuario = lerInt();
 				System.out.println(String.format("%-13s | %-30s | %-32s | %-15s | %-15s | %-10s | %s",
 						"ID-Empréstimo", "Usuario", "Livro", "Data Emprestimo", "Data Prevista", "Status", "Multa"));
 				try {
@@ -450,11 +434,9 @@ public class Main {
 					}
 				} catch (ValidacaoException e) {
 					System.err.println(e.getMessage());
-					
 				}
 				System.out.println("Digite o ID do empréstimo: ");
-				idEmprestimo = sc.nextInt();
-				sc.nextLine();
+				idEmprestimo = lerInt();
 				try {
 					double multa = sis.devolverLivro(idEmprestimo);
 					System.out.println("Livro devolvido!");
@@ -475,5 +457,17 @@ public class Main {
 			}
 
 		} while (escolha != 5);
+	}
+	static int lerInt() {
+		while (true) {
+			try {
+				int valor = sc.nextInt();
+				sc.nextLine();
+				return valor;
+			} catch (InputMismatchException e) {
+				sc.nextLine();
+				System.out.print("Digite um número válido: ");
+			}
+		}
 	}
 }
